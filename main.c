@@ -1,6 +1,6 @@
+#include "methods.h"
 #include <stdlib.h>
 #include <gtk/gtk.h>
-#include "methods.h"
 
 int main (int argc, char *argv[])
 {

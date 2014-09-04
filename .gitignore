@@ -28,3 +28,10 @@ obj/*
 
 # Database file
 *.dord
+
+# C tags
+tags
+
+# Codeblocks files
+project.layout
+project.depend

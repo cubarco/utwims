@@ -3,8 +3,16 @@
 #include <gtk/gtk.h>
 
 struct basic_guest_info;
+/**
+    Edit
+*/
+struct basic_per_year_info;
 
 struct basic_room_type_data;
+/**
+    Edit
+*/
+struct basic_teacher_data;
 
 struct basic_room_data
 {
@@ -16,6 +24,35 @@ struct basic_room_data
     char is_left_;
     struct basic_guest_info *guest_;
     struct basic_room_data *next_;
+};
+/**
+    Edit
+*/
+struct basic_work_data
+{
+    char id_[12];
+    struct basic_teacher_data *teacher_;
+    int year_num_;
+    int workload_;
+    int guides_;
+    int guides_mas_doc_;
+    int mark_;
+    struct basic_per_year_info *per_year_;
+    struct basic_work_data *next_;
+};
+
+struct teacher_total_workload
+{
+    int total_workload_;
+    struct basic_teacher_data *teacher_;
+    struct teacher_total_workload *next_;
+};
+
+struct teacher_this_year_time
+{
+    int this_year_time_;
+    struct basic_teacher_data *teacher_;
+    struct teacher_this_year_time *next_;
 };
 
 struct room_interest
@@ -36,7 +73,18 @@ struct basic_room_type_data
     struct basic_room_data *room_head_;
     struct basic_room_type_data *next_;
 };
-
+/**
+    Edit
+*/
+struct basic_teacher_data
+{
+    char id_[12];
+    char name_[20];
+    char unit_[30];
+    char title_[30];
+    struct basic_work_data *work_head_;
+    struct basic_teacher_data *next_;
+};
 
 struct basic_guest_info
 {
@@ -49,6 +97,21 @@ struct basic_guest_info
     float fare_;
     float pay_;
     struct basic_guest_info *next_;
+};
+/**
+    Edit
+*/
+struct basic_per_year_info
+{
+    char id_[12];
+    char year_num_[12];
+    char course_name_[12];
+    char class_[15];
+    struct basic_work_data *work_info_;
+    int course_time_;
+    int exp_time_;
+    int stu_num_;
+    struct basic_per_year_info *next_;
 };
 
 struct popup_menu
@@ -77,6 +140,16 @@ struct new_type_data
     GtkWidget *entry1;
     GtkWidget *entry2;
 };
+/**
+    Edit
+*/
+struct new_teacher_data
+{
+    GtkWidget *entry1;
+    GtkWidget *entry2;
+    GtkWidget *entry3;
+    GtkWidget *entry4;
+};
 
 struct new_room_data
 {
@@ -87,13 +160,35 @@ struct new_room_data
     GtkWidget *entry4;
     GtkWidget *checkbutton;
 };
+//Edit
+struct new_work_data
+{
+    GtkWidget *combo1;
+    GtkWidget *entry1;
+    GtkWidget *entry2;
+    GtkWidget *entry3;
+    GtkWidget *entry4;
+    GtkWidget *entry5;
+    GtkWidget *entry6;
+};
 
-struct new_guest_in_data
+//struct new_guest_in_data
+//{
+//    GtkWidget *entry1;
+//    GtkWidget *entry2;
+//    GtkWidget *entry3;
+//    GtkWidget *entry4;
+//};
+//Edit
+struct new_year_data
 {
     GtkWidget *entry1;
     GtkWidget *entry2;
     GtkWidget *entry3;
     GtkWidget *entry4;
+    GtkWidget *entry5;
+    GtkWidget *entry6;
+    GtkWidget *entry7;
 };
 
 struct new_guest_out_data

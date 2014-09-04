@@ -44,12 +44,15 @@ void file_quit(GtkWidget *win);
 
 /*open a new dialogue to insert a new room type*/
 void edit_new_type(GtkWidget *win);
+void edit_new_teacher(GtkWidget *win);
 
 /*open a new dialogue to insert a new room*/
 void edit_new_room(GtkWidget *win);
+void edit_new_work(GtkWidget *win);
 
 /*open a new dialogue to insert a new guest_in info*/
 void edit_new_guest_in(GtkWidget *win);
+void edit_new_year(GtkWidget *win);
 
 void edit_new_guest_out(GtkWidget *win);
 
@@ -64,8 +67,10 @@ void create_menu(GtkWidget *win, GtkWidget *menubar);
 
 /*to show or refresh the data from the current file*/
 void access_type_data();
+void access_teacher_data();
 
 void access_room_data();
+void access_work_data();
 
 void access_guest_data();
 
@@ -86,15 +91,18 @@ void guest_modify_dialogue();
 
 /*to show room info in a type*/
 void type_view_details();
+void teacher_view_details();
 
 /*to show room info in a type*/
 void room_view_detail();
+void work_view_detail();
 
 /*to find the active item in the treeview*/
 void handle_room_find_focus(GtkWidget *ignored, GtkTreeSelection *selection);
 
 /*to show guest info in a room when click the button*/
 void handle_room_view_detail();
+void handle_work_view_detail();
 
 /*to destroy the current dialogue*/
 void handle_destroy_dialogue(GtkWidget *ignored, GtkWidget *dialogue);
@@ -113,24 +121,36 @@ void handle_edit_type(GtkWidget *ignored, struct new_type_data *data);
 
 /*assistant function*/
 void handle_edit_type_dialogue();
+void handle_edit_teacher_dialogue();
 
 /*delete the selected type and remove it from the list*/
 void handle_type_delete();
+void handle_teacher_delete();
 
 /*assistant function*/
 void handle_room_new_assistant(void *ignored, struct room_dialogue_check *data);
+void handle_work_new_assistant(void *ignored, struct room_dialogue_check *data);
+
+void handle_year_new_assistant(void *ignored, struct guest_dialogue_check *data);
+
+void handle_year_edit_assistant(void *ignored, struct guest_dialogue_check *data);
+
 
 /*assistant function*/
 void handle_room_edit_assistant(void *ignored, struct room_dialogue_check *data);
+void handle_work_edit_assistant(void *ignored, struct room_dialogue_check *data);
 
 /*to handle the new room*/
 void handle_room_new(GtkWidget *ignored, struct new_room_data *data);
+void handle_work_new(GtkWidget *ignored, struct new_work_data *data);
 
 /*to edit the display of modified room*/
 void handle_room_modify(GtkWidget *ignored, struct new_room_data *data);
+void handle_work_modify(GtkWidget *ignored, struct new_work_data *data);
 
 /*to delete a room from the treeview and the list*/
 void handle_room_delete();
+void handle_work_delete();
 
 /*to find the active item in the treeview*/
 void handle_guest_find_focus(GtkWidget *ignored, GtkTreeSelection *selection);
@@ -146,12 +166,15 @@ void handle_guest_modify(GtkWidget *ignored, struct new_guest_data *data);
 
 /*to delete a guest info from the treeview and the list*/
 void handle_guest_delete();
+void handle_year_delete();
 
 /*show type detail when double clicked*/
 void handle_type_row_activated(GtkTreeView *treeview, GtkTreePath *path, GtkTreeViewColumn *column, GtkTreeSelection* selection);
+void handle_teacher_row_activated(GtkTreeView *treeview, GtkTreePath *path, GtkTreeViewColumn *column, GtkTreeSelection* selection);
 
 /*show room detail when double clicked*/
 void handle_room_row_activated(GtkTreeView *treeview, GtkTreePath *path, GtkTreeViewColumn *column, GtkTreeSelection* selection);
+void handle_work_row_activated(GtkTreeView *treeview, GtkTreePath *path, GtkTreeViewColumn *column, GtkTreeSelection* selection);
 
 /*to show the result of the query*/
 void handle_query_room(GtkWidget *ignored, struct query_room *data);
@@ -166,6 +189,10 @@ Maintain Data
 *****************************************************/
 /*to load data from a file*/
 struct basic_room_type_data *load_data();
+/**
+    Edit
+*/
+struct basic_teacher_data *load_all_data();
 
 /*to save data to a file*/
 void save_data();
@@ -202,6 +229,7 @@ void guest_delete();
 
 /*dialogue which query for room that meets with the given conditions*/
 void query_room();
+void query_work();
 
 /*dialogue which query for guest info that meets with the given conditions*/
 void query_guest();
@@ -211,10 +239,11 @@ void sta_by_month();
 
 /*a dialogue shows the statistics of every room in the given year*/
 void sta_by_year();
+void sta_total_workloads();
 
 /*a dialogue show the top 10 guests*/
 void sta_by_guest();
-
+void sta_this_year_time();
 /*a dialogue show the 10 most popular rooms*/
 void sta_by_room();
 /*****************************************************
@@ -250,6 +279,8 @@ void statistics_most_in_by_id(struct basic_guest_info *guestlist);
 /*****************************************************
 Assistant
 *****************************************************/
+int get_year();
+
 int get_hour(const char timech[]);
 
 int get_num(const char **chs, char ch);
