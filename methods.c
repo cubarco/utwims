@@ -14,6 +14,7 @@ gtk+ & system
 ***********************************************/
 void create_main()
 {
+    GtkWidget *swindow;
     GtkWidget *menubar;
     GtkWidget *vbox;
     GtkWidget *label;
@@ -35,6 +36,9 @@ void create_main()
     gtk_window_set_position (GTK_WINDOW (win), GTK_WIN_POS_CENTER);
     gtk_widget_realize (win);
     g_signal_connect (win, "destroy", gtk_main_quit, NULL);
+
+    swindow= gtk_scrolled_window_new(NULL, NULL);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(swindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
     /* Create a vertical box*/
     vbox= gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
@@ -93,8 +97,8 @@ void create_main()
     g_signal_connect_swapped(treeview, "button_press_event", G_CALLBACK(handle_popup_menu), type_menu);
     g_signal_connect(treeview, "row-activated", G_CALLBACK(handle_teacher_row_activated), selection);
 
-
-    gtk_box_pack_start(GTK_BOX(vbox), treeview, TRUE, TRUE, 0);
+    gtk_container_add(GTK_CONTAINER(swindow), treeview);
+    gtk_box_pack_start(GTK_BOX(vbox), swindow, TRUE, TRUE, 0);
 
     gtk_widget_show_all (win);
 
@@ -102,6 +106,7 @@ void create_main()
 
 void create_room_win()
 {
+    GtkWidget *swindow;
     GtkWidget *box1;
     GtkWidget *box2;
     GtkWidget *roomview;
@@ -129,6 +134,9 @@ void create_room_win()
     gtk_window_set_transient_for(GTK_WINDOW(room_win), GTK_WINDOW(win));
     gtk_window_set_modal(GTK_WINDOW(room_win), TRUE);
     gtk_window_set_destroy_with_parent(GTK_WINDOW(room_win), TRUE);
+
+    swindow= gtk_scrolled_window_new(NULL, NULL);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(swindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
     box1= gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
     box2= gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 4);
@@ -195,7 +203,8 @@ void create_room_win()
     g_signal_connect_swapped(roomview, "button_press_event", G_CALLBACK(handle_popup_menu), room_menu);
     g_signal_connect(roomview, "row-activated", G_CALLBACK(handle_work_row_activated), selection);
 
-    gtk_box_pack_start(GTK_BOX(box1), roomview, TRUE, TRUE, 0);
+    gtk_container_add(GTK_CONTAINER(swindow), roomview);
+    gtk_box_pack_start(GTK_BOX(box1), swindow, TRUE, TRUE, 0);
 
     g_signal_connect(button2, "clicked", G_CALLBACK(handle_room_find_focus), selection);
     g_signal_connect(button3, "clicked", G_CALLBACK(handle_room_find_focus), selection);
@@ -215,6 +224,7 @@ void create_room_win()
 
 void create_guest_win()
 {
+    GtkWidget *swindow;
     GtkWidget *box1;
     GtkWidget *box2;
     GtkWidget *guestview;
@@ -240,6 +250,9 @@ void create_guest_win()
     gtk_window_set_transient_for(GTK_WINDOW(guest_win), GTK_WINDOW(win));
     gtk_window_set_modal(GTK_WINDOW(guest_win), TRUE);
     gtk_window_set_destroy_with_parent(GTK_WINDOW(guest_win), TRUE);
+
+    swindow= gtk_scrolled_window_new(NULL, NULL);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(swindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
     box1= gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
     box2= gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 4);
@@ -272,7 +285,8 @@ void create_guest_win()
     selection= gtk_tree_view_get_selection(GTK_TREE_VIEW(guestview));
     gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
 
-    gtk_box_pack_start(GTK_BOX(box1), guestview, TRUE, TRUE, 0);
+    gtk_container_add(GTK_CONTAINER(swindow), guestview);
+    gtk_box_pack_start(GTK_BOX(box1), swindow, TRUE, TRUE, 0);
 
     button1= gtk_button_new_with_label("新基本工作");
     button2= gtk_button_new_with_label("编辑");
@@ -864,6 +878,8 @@ void sta_total_workloads()
         errmesg("No File Opened.");
         return;
     }
+
+    GtkWidget *swindow;
     GtkWidget *sta_total_workloads_win;
     GtkWidget *box1;
     GtkWidget *box2;
@@ -881,6 +897,9 @@ void sta_total_workloads()
     gtk_window_set_modal(GTK_WINDOW(sta_total_workloads_win), TRUE);
     gtk_window_set_destroy_with_parent(GTK_WINDOW(sta_total_workloads_win), TRUE);
     gtk_window_set_title(GTK_WINDOW(sta_total_workloads_win), "工作量统计");
+
+    swindow= gtk_scrolled_window_new(NULL, NULL);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(swindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
     box1= gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
     gtk_container_add(GTK_CONTAINER(sta_total_workloads_win), box1);
@@ -903,8 +922,9 @@ void sta_total_workloads()
 
     gtk_box_pack_start(GTK_BOX(box2), label1, FALSE, TRUE, 0);
 
+    gtk_container_add(GTK_CONTAINER(swindow), treview);
     gtk_box_pack_start(GTK_BOX(box1), box2, FALSE, TRUE, 0);
-    gtk_box_pack_start(GTK_BOX(box1), treview, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(box1), swindow, TRUE, TRUE, 0);
 
     gtk_widget_show_all(sta_total_workloads_win);
 }
@@ -916,6 +936,8 @@ void sta_this_year_time()
         errmesg("No File Opened.");
         return;
     }
+
+    GtkWidget *swindow;
     GtkWidget *sta_this_year_time_win;
     GtkWidget *box1;
     GtkWidget *box2;
@@ -937,6 +959,9 @@ void sta_this_year_time()
     gtk_window_set_destroy_with_parent(GTK_WINDOW(sta_this_year_time_win), TRUE);
     gtk_window_set_title(GTK_WINDOW(sta_this_year_time_win), "本年度教学总学时统计");
 
+    swindow= gtk_scrolled_window_new(NULL, NULL);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(swindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+
     box1= gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
     gtk_container_add(GTK_CONTAINER(sta_this_year_time_win), box1);
     box2= gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
@@ -957,8 +982,9 @@ void sta_this_year_time()
 
     gtk_box_pack_start(GTK_BOX(box2), label1, FALSE, TRUE, 0);
 
+    gtk_container_add(GTK_CONTAINER(swindow), treview1);
     gtk_box_pack_start(GTK_BOX(box1), box2, FALSE, TRUE, 0);
-    gtk_box_pack_start(GTK_BOX(box1), treview1, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(box1), swindow, TRUE, TRUE, 0);
 
     gtk_widget_show_all(sta_this_year_time_win);
 }
@@ -1128,6 +1154,7 @@ void query_work()
         return;
     }
 
+    GtkWidget *swindow;
     GtkWidget *query_work_win;
     GtkWidget *box1;
     GtkWidget *box2;
@@ -1178,6 +1205,9 @@ void query_work()
     gtk_window_set_modal(GTK_WINDOW(query_work_win), TRUE);
     gtk_window_set_destroy_with_parent(GTK_WINDOW(query_work_win), TRUE);
     gtk_window_set_title(GTK_WINDOW(query_work_win), "查询");
+
+    swindow= gtk_scrolled_window_new(NULL, NULL);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(swindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
     box1= gtk_box_new(GTK_ORIENTATION_VERTICAL, 3);
     gtk_container_add(GTK_CONTAINER(query_work_win), box1);
@@ -1283,8 +1313,10 @@ void query_work()
     gtk_box_pack_start(GTK_BOX(box4), button1, TRUE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(box4), button2, TRUE, TRUE, 0);
 
+    gtk_container_add(GTK_CONTAINER(swindow), treeview);
+
     gtk_box_pack_start(GTK_BOX(box1), grid, TRUE, TRUE, 0);
-    gtk_box_pack_start(GTK_BOX(box1), treeview, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(box1), swindow, TRUE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(box1), box4, FALSE, TRUE, 0);
 
     struct query_room *data= (struct query_room *)malloc(sizeof(struct query_room));
@@ -2077,6 +2109,12 @@ void work_dialogue(int is_edit, struct room_dialogue_check *checkdata)
         gtk_entry_set_text(GTK_ENTRY(entry4), guides);
         gtk_entry_set_text(GTK_ENTRY(entry5), guides_mas_doc);
         gtk_entry_set_text(GTK_ENTRY(entry6), mark);
+    }
+    else
+    {
+        char curr_year[10];
+        sprintf(curr_year, "%d", get_year());
+        gtk_entry_set_text(GTK_ENTRY(entry2), curr_year);
     }
 
     GtkWidget *button1= gtk_button_new_with_label("确定");
@@ -3234,10 +3272,10 @@ void cal_this_year_time_sta(GtkListStore *store1)
         this_year_time_iter->this_year_time_= 0;
         this_year_time_iter->next_= (struct teacher_this_year_time*)malloc(sizeof(struct teacher_this_year_time));
         work_iter= teacher_iter->work_head_;
-        while(work_iter && work_iter->year_num_ == curr_year)
+        while(work_iter)
         {
             year_iter= work_iter->per_year_;
-            while(year_iter)
+            while(year_iter  && work_iter->year_num_ == curr_year)
             {
                 this_year_time_iter->this_year_time_ += year_iter->course_time_ + year_iter->exp_time_;
                 year_iter= year_iter->next_;
